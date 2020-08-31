@@ -7,6 +7,7 @@ class StockMove(models.Model):
     _inherit = 'stock.move'
 
     kardex_price_unit = fields.Float(string='Kardex Price Unit', default=0) # digits=(total, decimal)
+    type_operation_sunat_id = fields.Many2one('type.operation.kardex','Tipo de Transacción')
 
     def _create_in_svl(self, forced_quantity=None):
         res = super(StockMove, self)._create_in_svl()
@@ -78,6 +79,9 @@ class ProductProduct(models.Model):
             tipo = self.env['type.operation.kardex'].search([
                 ('name','=',line[3])
             ])
+            if len(tipo) == 0 :
+                tipo = self.env['type.operation.kardex'].search([('id','=',line[16])])
+
             if len(tipo) > 0 :
                 saldo = saldo + line[10] - line[11]
                 ing = round((line[12] if line[12] and line[12]>0 else last_price) * line[10],2) if line[10] else 0
@@ -91,44 +95,30 @@ class ProductProduct(models.Model):
                 else:
                     saldo_total = saldo_total + ing - sal
 
-                if inicial :
+                if line[10] > 0:
                     self.env['product.product.kardex.line'].create({
-                        'name': self.id,
-                        'fecha': line[8],
-                        'type_operation_sunat_id' : tipo[0].id,
-                        'cantidad_inicial':line[10],
-                        'costo_intradas':line[12],
-                        'total_bolivares_inicial': line[10] * line[12],
-                        'total':line[10],
-                        'promedio':line[12],
-                        'total_bolivares':line[10] * line[12]
+                    'name': self.id,
+                    'fecha': line[8],
+                    'type_operation_sunat_id' : tipo[0].id,
+                    'cantidad_entradas':line[10],
+                    'costo_entradas':line[12],
+                    'total_bolivares_entradas': line[10] * line[12],
+                    'total':saldo,
+                    'promedio':last_price,
+                    'total_bolivares':saldo_total
                     })
-                    inicial = False
                 else :
-                    if line[10] > 0:
-                        self.env['product.product.kardex.line'].create({
-                        'name': self.id,
-                        'fecha': line[8],
-                        'type_operation_sunat_id' : tipo[0].id,
-                        'cantidad_entradas':line[10],
-                        'costo_entradas':line[12],
-                        'total_bolivares_entradas': line[10] * line[12],
-                        'total':saldo,
-                        'promedio':last_price,
-                        'total_bolivares':saldo_total
-                        })
-                    else :
-                        self.env['product.product.kardex.line'].create({
-                        'name': self.id,
-                        'fecha': line[8],
-                        'type_operation_sunat_id' : tipo[0].id,
-                        'cantidad_salidas':line[11],
-                        'costo_salidas':last_price,
-                        'total_bolivares_salida': line[11] * last_price,
-                        'total':saldo,
-                        'promedio':last_price,
-                        'total_bolivares':saldo_total
-                        })
+                    self.env['product.product.kardex.line'].create({
+                    'name': self.id,
+                    'fecha': line[8],
+                    'type_operation_sunat_id' : tipo[0].id,
+                    'cantidad_salidas':line[11],
+                    'costo_salidas':last_price,
+                    'total_bolivares_salida': line[11] * last_price,
+                    'total':saldo,
+                    'promedio':last_price,
+                    'total_bolivares':saldo_total
+                    })
 
     def movimientos(self):
         cad = ""
@@ -216,7 +206,8 @@ class ProductProduct(models.Model):
         svl.unit_cost + sm.kardex_price_unit as "Precio Unitario",
         sp.picking_type_id as "Tipo de Picking",
         sm.inventory_id as "Ajuste",
-        si.is_initial_sil
+        si.is_initial_sil,
+        sm.type_operation_sunat_id as "type_operation_sunat_id"
         from stock_move sm
         left join stock_move_line sml ON sm.id = sml.move_id
         left join stock_location slo ON sml.location_id = slo.id
@@ -243,6 +234,7 @@ class ProductProduct(models.Model):
         order by "Fecha"
         """
         self.env.cr.execute(sql)
+        print(sql)
         return self.env.cr.fetchall()
 class ProductKardexLine(models.TransientModel):
     _name = "product.product.kardex.line"

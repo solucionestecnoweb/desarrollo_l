@@ -9,7 +9,7 @@
                <field name="partner_id" position="after">
                     <field name="kardex_date" required="1" />
                     <field name="use_kardex_date" />
-                    <field name="invoice_id" attrs="{'invisible': [('picking_type_code', '=', 'internal')]}" readonly="0"/>
+                    <field name="invoice_id" attrs="{'invisible': [('picking_type_code', '=', 'internal')]}" readonly="1"/>
                     <!-- domain="[('type', '=', False)]"/> -->
                     <!-- <field name="invoice_id_sale" attrs="{'invisible': [('picking_type_code', '!=', 'outgoing')]}" options="{'no_create': True}"/>
                     <field name="invoice_id_purchase" attrs="{'invisible': [('picking_type_code', '!=', 'incoming')]}" options="{'no_create': True}"/> -->

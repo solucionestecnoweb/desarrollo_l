@@ -16,10 +16,10 @@
                             <tree>
                                 <field name="fecha"/>
                                 <field name="type_operation_sunat_id"/>
-
+<!-- 
                                 <field name="cantidad_inicial"/>
                                 <field name="costo_intradas"/>
-                                <field name="total_bolivares_inicial"/>
+                                <field name="total_bolivares_inicial"/> -->
 
                                 <field name="cantidad_entradas"/>
                                 <field name="costo_entradas"/>
@@ -41,17 +41,17 @@
         </record>
 
         <!-- mrp.production inherit form view -->
-        <record id="mrp_production_form_view" model="ir.ui.view">
+        <!-- <record id="mrp_production_form_view" model="ir.ui.view">
             <field name="name">mrp.production.inherit.view.form</field>
             <field name="model">mrp.production</field>
             <field name="inherit_id" ref="mrp.mrp_production_form_view"/>
             <field name="arch" type="xml">
-                <!-- Add your xpath here -->
+                
                 <button name="action_cancel" position="after" >
                     <button name="picking_mrp" type="object" string="Generar agregar Kardex" />
                 </button>
             </field>
-        </record>
+        </record> -->
 
     </data>
 </odoo>

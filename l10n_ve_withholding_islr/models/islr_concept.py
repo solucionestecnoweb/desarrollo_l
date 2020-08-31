@@ -67,17 +67,3 @@ class IsrlConcepts(models.Model):
         rate_ids = fields.One2many(
         'islr.rates', 'islr_concept_id', 'Rate',
         help="Retention Concept rate", required=False)
-
-
-class TaxUnit(models.Model):
-        _inherit = 'tax.unit'
-
-
-        @api.model
-        def create(self, vals):
-                t = super(TaxUnit, self).create(vals)
-                concept = self.env['islr.rates'].search([])
-                for item in concept :
-                        if item.subtract > 0:
-                                item.subtract = t.tax_unit_amount * 83.3334  * (item.retention_percentage /100)
-                return t

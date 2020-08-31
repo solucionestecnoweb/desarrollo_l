@@ -222,6 +222,25 @@ class libro_ventas(models.TransientModel):
                 ('type','in',('out_invoice','out_refund','out_receipt'))
                 ])
         for det in cursor_resumen:
+            alicuota_reducida=0
+            alicuota_general=0
+            alicuota_adicional=0
+            base_adicional=0
+            base_reducida=0
+            base_general=0
+            total_con_iva=0
+            total_base=0
+            total_exento=0
+            if accion=="factura":
+                alicuota_reducida=det.alicuota_reducida
+                alicuota_general=det.alicuota_general
+                alicuota_adicional=det.alicuota_adicional
+                base_adicional=det.base_adicional
+                base_reducida=det.base_reducida
+                base_general=det.base_general
+                total_con_iva=det.total_con_iva
+                total_base=det.total_base
+                total_exento=det.total_exento
             values={
             'name':det.fecha_fact,
             'document':det.invoice_id.name,
@@ -229,8 +248,8 @@ class libro_ventas(models.TransientModel):
             'invoice_number': det.invoice_id.invoice_number,#darrell
             'tipo_doc': det.tipo_doc,
             'invoice_ctrl_number': det.invoice_id.invoice_ctrl_number,
-            'sale_total': det.total_con_iva,
-            'base_imponible': det.total_base,
+            'sale_total': total_con_iva,
+            'base_imponible':total_base,
             'iva' : det.total_valor_iva,
             'iva_retenido': det.total_ret_iva,
             'retenido': det.vat_ret_id.name,
@@ -239,13 +258,13 @@ class libro_ventas(models.TransientModel):
             'state': det.invoice_id.state,
             'currency_id':det.invoice_id.currency_id.id,
             'ref':det.invoice_id.ref,
-            'total_exento':det.total_exento,
-            'alicuota_reducida':det.alicuota_reducida,
-            'alicuota_general':det.alicuota_general,
-            'alicuota_adicional':det.alicuota_adicional,
-            'base_adicional':det.base_adicional,
-            'base_reducida':det.base_reducida,
-            'base_general':det.base_general,
+            'total_exento':total_exento,
+            'alicuota_reducida':alicuota_reducida,
+            'alicuota_general':alicuota_general,
+            'alicuota_adicional':alicuota_adicional,
+            'base_adicional':base_adicional,
+            'base_reducida':base_reducida,
+            'base_general':base_general,
             'retenido_reducida':det.retenido_reducida,
             'retenido_adicional':det.retenido_adicional,
             'retenido_general':det.retenido_general,
@@ -258,6 +277,7 @@ class libro_ventas(models.TransientModel):
 
 
     def print_facturas(self):
+        self.actualiza_fecha_voucher()
         self.env['account.wizard.pdf.ventas'].search([]).unlink()
         action="voucher"
         self.get_invoice(action)
@@ -266,6 +286,24 @@ class libro_ventas(models.TransientModel):
         return {'type': 'ir.actions.report','report_name': 'libro_ventas.reporte_factura_clientes','report_type':"qweb-pdf"}
 
 
+    def actualiza_fecha_voucher(self):
+        lista=self.env['vat.retention'].search([
+                ('voucher_delivery_date','>=',self.date_from),
+                ('voucher_delivery_date','<=',self.date_to),
+                ('state','=','posted'),
+                ('type','in',('out_invoice','out_refund','out_receipt'))
+                ])
+        for dett in lista:
+            state=dett.state
+            voucher_delivery_date=dett.voucher_delivery_date
+            #raise UserError(_('state: %s')%dett.invoice_id.id)
+            lista_resumen=self.env['account.move.line.resumen'].search([('invoice_id','=',dett.invoice_id.id)])
+            #raise UserError(_('cedula: %s')%lista_resumen)
+            for deta in lista_resumen:
+                self.env['account.move.line.resumen'].browse(deta.id).write({
+                    'fecha_comprobante':voucher_delivery_date,
+                    'state_voucher_iva':state,
+                    })
 
 
     def cont_row(self):

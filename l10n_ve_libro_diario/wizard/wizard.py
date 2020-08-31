@@ -29,7 +29,7 @@ class LibroComprasModelo(models.Model):
     def float_format(self,valor):
         #valor=self.base_tax
         if valor:
-            result = '{:,.4f}'.format(valor)
+            result = '{:,.2f}'.format(valor)
             result = result.replace(',','*')
             result = result.replace('.',',')
             result = result.replace('*','.')
@@ -99,7 +99,7 @@ class WizardReport_1(models.TransientModel): # aqui declaro las variables del wi
     def float_format2(self,valor):
         #valor=self.base_tax
         if valor:
-            result = '{:,.4f}'.format(valor)
+            result = '{:,.2f}'.format(valor)
             result = result.replace(',','*')
             result = result.replace('.',',')
             result = result.replace('*','.')
