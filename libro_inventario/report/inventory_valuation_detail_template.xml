@@ -82,8 +82,8 @@
 							<t t-set="cat_general" t-value="0"/>
 
 
-							<table width='100%' >
-								<thead style="margin-top: 100px;">
+							<table width='100%' style="margin-top: 100px;" >
+								<thead >
 								<tr>
 									<th style="border-top: 1px solid black;" class="text-center"></th>
 									<th style="border-top: 1px solid black;" class="text-center"></th>
