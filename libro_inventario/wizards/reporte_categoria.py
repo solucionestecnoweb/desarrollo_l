@@ -21,6 +21,17 @@ class ReporteCategoria(models.TransientModel):
 
     libro  = fields.Many2many(comodel_name='libro.inventario.categoria', string='Libro')
     
+    def float_format(self,valor):
+        #valor=self.base_tax
+        if valor:
+            result = '{:,.2f}'.format(valor)
+            result = result.replace(',','*')
+            result = result.replace('.',',')
+            result = result.replace('*','.')
+        else:
+            result="0,00"
+        return result
+
     def datos(self):
         temp_libro = self.env['libro.inventario.categoria'].search([])
         temp_line = self.env['libro.inventario'].search([])
@@ -60,11 +71,7 @@ class ReporteCategoria(models.TransientModel):
                 monto_salida = 0
                 cantidad_salidas = 0
 
-                libro = self.env['libro.inventario'].create({ 
-                    'name': item.id,
-                    'libro':cabezera.id ,
-                    })
-                libro.libro = cabezera.id
+                
 
                 kardex_line  =  self.env['product.product.kardex.line'].search([
                     ('name','=',item.id),
@@ -73,6 +80,12 @@ class ReporteCategoria(models.TransientModel):
                     ])
             
                 if len(kardex_line) > 0:
+                    libro = self.env['libro.inventario'].create({ 
+                    'name': item.id,
+                    'libro':cabezera.id ,
+                    })
+                    libro.libro = cabezera.id
+                    
                     cantidad = len(kardex_line)
 
                     inicial =  self.env['product.product.kardex.line'].search([

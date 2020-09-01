@@ -11,7 +11,7 @@
                 <!-- Add your xpath here -->
                 <page  position="after"  name="inventory">
                     <page string="Kardex" name="kardex">
-                        <button string="actualizar Kardez" type="object" name="generate_kardex_gb" />
+                        <button string="actualizar Kardex" type="object" name="generate_kardex_gb" />
                         <field name="kardex_id">
                             <tree>
                                 <field name="fecha"/>
