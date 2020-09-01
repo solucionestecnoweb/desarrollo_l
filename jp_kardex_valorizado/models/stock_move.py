@@ -207,7 +207,8 @@ class ProductProduct(models.Model):
         sp.picking_type_id as "Tipo de Picking",
         sm.inventory_id as "Ajuste",
         si.is_initial_sil,
-        sm.type_operation_sunat_id as "type_operation_sunat_id"
+        sm.type_operation_sunat_id as "type_operation_sunat_id",
+        sm.id "ID"
         from stock_move sm
         left join stock_move_line sml ON sm.id = sml.move_id
         left join stock_location slo ON sml.location_id = slo.id
@@ -231,7 +232,7 @@ class ProductProduct(models.Model):
         and (sml.location_id in """ +str(tuple(s_loca))+ """ or sml.location_dest_id in """ +str(tuple(s_loca))+ """)
         and svl.stock_landed_cost_id is NULL
         and sm.state = 'done'
-        order by "Fecha"
+        order by "Fecha", "ID"
         """
         self.env.cr.execute(sql)
         print(sql)
