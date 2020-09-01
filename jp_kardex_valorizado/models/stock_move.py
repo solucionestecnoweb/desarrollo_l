@@ -232,7 +232,7 @@ class ProductProduct(models.Model):
         and (sml.location_id in """ +str(tuple(s_loca))+ """ or sml.location_dest_id in """ +str(tuple(s_loca))+ """)
         and svl.stock_landed_cost_id is NULL
         and sm.state = 'done'
-        order by "Fecha", "ID"
+        order by "Fecha"
         """
         self.env.cr.execute(sql)
         print(sql)
