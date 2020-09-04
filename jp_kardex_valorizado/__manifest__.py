@@ -5,7 +5,7 @@
     'author': 'ing. Jean Paul Casis',
     'website': 'www.pvodoo.com',
     'category': 'account',
-    'depends': ['product','stock','account','jp_foreign_trade_logistics','mrp'],
+    'depends': ['product','stock','account','mrp'],
     'description': """KARDEX VALORIZADO""",
     'demo': [],
     'data': [
