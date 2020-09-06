@@ -96,7 +96,7 @@ class ReporteCategoria(models.TransientModel):
                         libro.cantidad_inicial = kardex_line[0].total 
                         libro.costo_intradas   = kardex_line[0].promedio
                         libro.total_bolivares_inicial = kardex_line[0].total_bolivares
-                        
+
                         libro.total = kardex_line[cantidad -1].total
                         libro.promedio = kardex_line[cantidad-1].promedio
                         libro.total_bolivares = kardex_line[cantidad-1].total_bolivares
@@ -126,6 +126,10 @@ class ReporteCategoria(models.TransientModel):
 
 
         self.libro =  self.env['libro.inventario.categoria'].search([])
+        for item in self.libro:
+            for l in item.line_id:
+                if l.cantidad_inicial == 0 and l.cantidad_entradas == 0 and l.cantidad_salidas == 0:
+                    l.unlink()
 
                 
     def print_facturas(self):
