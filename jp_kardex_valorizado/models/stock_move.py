@@ -102,7 +102,7 @@ class ProductProduct(models.Model):
                     'type_operation_sunat_id' : tipo[0].id,
                     'cantidad_entradas':line[10],
                     'costo_entradas':line[12],
-                    'total_bolivares_entradas': line[10] * line[12],
+                    'total_bolivares_entradas': line[10] * line[12] if  line[12] else 0,
                     'total':saldo,
                     'promedio':last_price,
                     'total_bolivares':saldo_total

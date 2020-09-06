@@ -100,7 +100,7 @@ class ReporteCategoria(models.TransientModel):
                         libro.cantidad_inicial = inicial[0].total 
                         libro.costo_intradas   = inicial[0].promedio
                         libro.total_bolivares_inicial = inicial[0].total_bolivares
-
+                        
                         libro.total = kardex_line[cantidad -1].total
                         libro.promedio = kardex_line[cantidad-1].promedio
                         libro.total_bolivares = kardex_line[cantidad-1].total_bolivares
