@@ -2,7 +2,7 @@
 <odoo>
     <data>
 
-        <menuitem parent="account.menu_finance_reports" name="Kardex" id="kardex_main_menu"/>
+        <!-- <menuitem parent="account.menu_finance_reports" name="Kardex" id="kardex_main_menu"/> -->
 
         <record id="view_make_kardex" model="ir.ui.view">
             <field name="name">make.kardex.form</field>
@@ -50,15 +50,9 @@
             <field name="context">{'tipo':'fisico','form_view_ref': 'view_make_kardex','type_product':'product'}</field>
         </record>
 
-
-        <menuitem name="Kardex Fisico" id="kardex_sunat_val_menu_fisico"
+<!--<menuitem name="Kardex Fisico" id="kardex_sunat_val_menu_fisico"
                  parent="kardex_main_menu" action="make_kardex_action_fisico"
-                 sequence="3" />
-
-
-
-
-
+                 sequence="3" /> -->
 
         <record id="view_make_kardex_product" model="ir.ui.view">
             <field name="name">make.kardex.product.form</field>

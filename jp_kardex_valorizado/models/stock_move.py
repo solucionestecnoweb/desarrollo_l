@@ -76,9 +76,7 @@ class ProductProduct(models.Model):
         inicial = True
         movimientos =  self.movimientos()
         for line in movimientos :
-            tipo = self.env['type.operation.kardex'].search([
-                ('name','=',line[3])
-            ])
+            tipo = self.env['type.operation.kardex'].search([('name','=',line[3])])
             if len(tipo) == 0 :
                 tipo = self.env['type.operation.kardex'].search([('id','=',line[16])])
 
@@ -86,7 +84,7 @@ class ProductProduct(models.Model):
                 saldo = saldo + line[10] - line[11]
                 ing = round((line[12] if line[12] and line[12]>0 else last_price) * line[10],2) if line[10] else 0
                 sal = round(last_price * line[11],2) if line[11] else 0
-                if line[13] == 1 or line[13] == None: #Stock pickin type == 1 == Ingreso
+                if line[13] == 1 or line[13] == None: 
                     saldo_total = saldo_total + ing - sal
                     if line[14] and line[15] == False or line[14] and line[15] == True :
                         last_price = last_price
@@ -195,13 +193,29 @@ class ProductProduct(models.Model):
                     else si.name
                 end
         end as "Doc. Almacén",
-        case 
-            when spt.code = 'incoming' or coalesce(spt.code , '') = '' then sm.product_qty
-            else 0
+                case 
+            when sm.type_operation_sunat_id is  NULL then 
+                case 
+                    when spt.code = 'incoming' or coalesce(spt.code , '') = '' then sm.product_qty
+                    else  0
+                end
+            else 
+                case 
+                    when sm.type_operation_sunat_id = 10 then 0
+                    else sm.product_qty
+                end
         end as "Entrada",
         case 
-            when spt.code = 'incoming' or coalesce(spt.code , '') = '' then 0
-            else sm.product_qty
+            when sm.type_operation_sunat_id is  NULL then  
+                case
+                    when spt.code = 'incoming' or coalesce(spt.code , '') = '' then 0
+                    else sm.product_qty
+                end
+            else 
+                case 
+                    when sm.type_operation_sunat_id = 10 then sm.product_qty
+                    else 0
+                end
         end as "Salida",
         svl.unit_cost + sm.kardex_price_unit as "Precio Unitario",
         sp.picking_type_id as "Tipo de Picking",
@@ -235,7 +249,7 @@ class ProductProduct(models.Model):
         order by "Fecha"
         """
         self.env.cr.execute(sql)
-        print(sql)
+        #print(sql)
         return self.env.cr.fetchall()
 class ProductKardexLine(models.TransientModel):
     _name = "product.product.kardex.line"
