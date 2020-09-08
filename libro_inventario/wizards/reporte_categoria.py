@@ -70,8 +70,24 @@ class ReporteCategoria(models.TransientModel):
                 salida = 0 
                 monto_salida = 0
                 cantidad_salidas = 0
-
                 
+                libro = self.env['libro.inventario'].create({ 
+                    'name': item.id,
+                    'libro':cabezera.id ,
+                    })
+                
+                libro.libro = cabezera.id
+                
+                inicial =  self.env['product.product.kardex.line'].search([
+                    ('name','=',item.id),
+                    ('fecha','<=',self.date_from),
+                    ])
+
+                if len(inicial) > 0:
+                    cantidad_inicial = len(inicial)
+                    libro.cantidad_inicial = inicial[cantidad_inicial - 1].total 
+                    libro.costo_intradas   = inicial[cantidad_inicial -1 ].promedio
+                    libro.total_bolivares_inicial = inicial[cantidad_inicial -1].total_bolivares
 
                 kardex_line  =  self.env['product.product.kardex.line'].search([
                     ('name','=',item.id),
@@ -80,35 +96,15 @@ class ReporteCategoria(models.TransientModel):
                     ])
             
                 if len(kardex_line) > 0:
-                    libro = self.env['libro.inventario'].create({ 
-                    'name': item.id,
-                    'libro':cabezera.id ,
-                    })
-                    libro.libro = cabezera.id
+                    
                     
                     cantidad = len(kardex_line)
 
-                    inicial =  self.env['product.product.kardex.line'].search([
-                        ('name','=',item.id),
-                        ('fecha','<',self.date_from),
-                        ])
-                    if len(inicial) == 0:
-                        libro.cantidad_inicial = kardex_line[0].total 
-                        libro.costo_intradas   = kardex_line[0].promedio
-                        libro.total_bolivares_inicial = kardex_line[0].total_bolivares
-
-                        libro.total = kardex_line[cantidad -1].total
-                        libro.promedio = kardex_line[cantidad-1].promedio
-                        libro.total_bolivares = kardex_line[cantidad-1].total_bolivares
-
-                    else :
-                        libro.cantidad_inicial = inicial[0].total 
-                        libro.costo_intradas   = inicial[0].promedio
-                        libro.total_bolivares_inicial = inicial[0].total_bolivares
-
-                        libro.total = kardex_line[cantidad -1].total
-                        libro.promedio = kardex_line[cantidad-1].promedio
-                        libro.total_bolivares = kardex_line[cantidad-1].total_bolivares
+                  
+                    libro.total = kardex_line[cantidad -1].total
+                    libro.promedio = kardex_line[cantidad-1].promedio
+                    libro.total_bolivares = kardex_line[cantidad-1].total_bolivares
+                    
 
                     for sal in kardex_line :
                         if sal.cantidad_salidas > 0:
