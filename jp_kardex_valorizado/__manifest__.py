@@ -2,7 +2,7 @@
 {
     'name': 'Kardex Valorizado',
     'version': '1.0',
-    'author': 'ing. Jean Paul Casis',
+    'author': 'Ing. Jose Blanco',
     'website': 'gregoriocode.com',
     'category': 'account',
     'depends': ['product','stock','account','mrp','stock_account'],

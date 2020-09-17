@@ -145,7 +145,7 @@
 											</t>
 											<t t-else="">
 
-												<th class="text-center"></th>
+												<th class="text-center"><span t-esc="l.name.default_code"/></th>
 												<th class="text-center"><span t-esc="l.name.name"/></th>
 
 												<th class="text-center"><span t-esc="o.float_format(l.cantidad_inicial)"/></th>

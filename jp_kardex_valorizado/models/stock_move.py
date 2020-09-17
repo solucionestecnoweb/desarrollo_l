@@ -60,8 +60,17 @@ class ProductProduct(models.Model):
 
     kardex_id = fields.One2many(comodel_name='product.product.kardex.line', inverse_name='name', string='Kardex')
 
+    def ver_kardex(self):
+        self.generate_kardex_gb()
+        action = self.env.ref('jp_kardex_valorizado.kardex_line_action').read()[0]
+
+        pickings = self.env['product.product.kardex.line'].search([('name','=',self.id)])
+        if len(pickings) > 1:
+            action['domain'] = [('id', 'in', pickings.ids)]
+        return action
+
     def generate_kardex_gb(self):
-        temp =  self.env['product.product.kardex.line'].search([])
+        temp =  self.env['product.product.kardex.line'].search([('name','=',self.id)])
         for t in temp:
             t.unlink()
         
@@ -251,6 +260,7 @@ class ProductProduct(models.Model):
         self.env.cr.execute(sql)
         #print(sql)
         return self.env.cr.fetchall()
+
 class ProductKardexLine(models.TransientModel):
     _name = "product.product.kardex.line"
 
