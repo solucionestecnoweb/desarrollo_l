@@ -64,13 +64,13 @@ class ProductProduct(models.Model):
         self.generate_kardex_gb()
         action = self.env.ref('jp_kardex_valorizado.kardex_line_action').read()[0]
 
-        pickings = self.env['product.product.kardex.line'].search([('name','=',self.id)])
+        pickings = self.env['product.product.kardex.line'].search([])
         if len(pickings) > 1:
             action['domain'] = [('id', 'in', pickings.ids)]
         return action
 
     def generate_kardex_gb(self):
-        temp =  self.env['product.product.kardex.line'].search([('name','=',self.id)])
+        temp =  self.env['product.product.kardex.line'].search([])
         for t in temp:
             t.unlink()
         
