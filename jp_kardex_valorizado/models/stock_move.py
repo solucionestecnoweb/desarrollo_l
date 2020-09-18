@@ -84,6 +84,54 @@ class ProductProduct(models.Model):
         last_price = 0
         inicial = True
         movimientos =  self.movimientos()
+
+        # for i in range(len(movimientos)) :
+        #     tipo = self.env['type.operation.kardex'].search([('name','=',movimientos[i][3])])
+        #     if len(tipo) == 0 :
+        #         tipo = self.env['type.operation.kardex'].search([('id','=',movimientos[i][16])])
+    
+        #     if len(tipo) > 0 :
+        #         saldo = saldo + movimientos[i][10] - movimientos[i][11]
+             
+        #         ing = round((movimientos[i][12] if movimientos[i][12] and movimientos[i][12]>0 else last_price) * movimientos[i][10],2) if movimientos[i][10] else 0
+        #         sal = round(last_price * movimientos[i][11],2) if movimientos[i][11] else 0
+        #         if movimientos[i][13] == 1 or movimientos[i][13] == None: 
+        #             saldo_total = saldo_total + ing - sal
+        #             if movimientos[i][14] and movimientos[i][15] == False or movimientos[i][14] and movimientos[i][15] == True :
+        #                 last_price = last_price
+        #             else:
+        #                 last_price = saldo_total / saldo if saldo_total and saldo > 0 else 0
+        #         else:
+        #             saldo_total = saldo_total + ing - sal
+        #         if last_price == 0:
+        #             last_price = movimientos[i][12]
+        #         print(i)
+        #         if movimientos[i][10] > 0:
+        #             self.env['product.product.kardex.line'].create({
+        #             'name': self.id,
+        #             'fecha': movimientos[i][8],
+        #             'type_operation_sunat_id' : tipo[0].id,
+        #             'cantidad_entradas':movimientos[i][10],
+        #             'costo_entradas':movimientos[i][12],
+        #             'total_bolivares_entradas': movimientos[i][10] * movimientos[i][12] if  movimientos[i][12] else 0,
+        #             'total':saldo,
+        #             'promedio':last_price,
+        #             'total_bolivares':saldo_total
+        #             })
+        #         else :
+        #             self.env['product.product.kardex.line'].create({
+        #             'name': self.id,
+        #             'fecha': movimientos[i][8],
+        #             'type_operation_sunat_id' : tipo[0].id,
+        #             'cantidad_salidas':movimientos[i][11],
+        #             'costo_salidas':last_price,
+        #             'total_bolivares_salida': movimientos[i][11] * last_price,
+        #             'total':saldo,
+        #             'promedio':last_price,
+        #             'total_bolivares':saldo_total
+        #             })
+
+
         for line in movimientos :
             tipo = self.env['type.operation.kardex'].search([('name','=',line[3])])
             if len(tipo) == 0 :
@@ -258,10 +306,11 @@ class ProductProduct(models.Model):
         and (sml.location_id in """ +str(tuple(s_loca))+ """ or sml.location_dest_id in """ +str(tuple(s_loca))+ """)
         and svl.stock_landed_cost_id is NULL
         and sm.state = 'done'
+        and svl.unit_cost > 0
         order by "Fecha"
         """
         self.env.cr.execute(sql)
-        #print(sql)
+        print(sql)
         return self.env.cr.fetchall()
 
 class ProductKardexLine(models.TransientModel):
