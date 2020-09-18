@@ -162,7 +162,7 @@ class ProductProduct(models.Model):
                     'costo_entradas':line[12],
                     'total_bolivares_entradas': line[10] * line[12] if  line[12] else 0,
                     'total':saldo,
-                    'promedio':saldo / saldo_total,
+                    'promedio':saldo_total / saldo,
                     'total_bolivares':saldo_total
                     })
                 else :
@@ -174,7 +174,7 @@ class ProductProduct(models.Model):
                     'costo_salidas':last_price,
                     'total_bolivares_salida': line[11] * last_price,
                     'total':saldo,
-                    'promedio':saldo / saldo_total,
+                    'promedio':  saldo_total / saldo,
                     'total_bolivares':saldo_total
                     })
 
