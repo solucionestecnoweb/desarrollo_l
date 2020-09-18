@@ -80,7 +80,7 @@ class ReporteCategoria(models.TransientModel):
                 
                 inicial =  self.env['product.product.kardex.line'].search([
                     ('name','=',item.id),
-                    ('fecha','<=',self.date_from),
+                    ('fecha','<',self.date_from),
                     ])
 
                 if len(inicial) > 0:

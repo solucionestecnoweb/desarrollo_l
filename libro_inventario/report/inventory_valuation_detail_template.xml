@@ -145,24 +145,24 @@
 											</t>
 											<t t-else="">
 
-												<th class="text-center"><span t-esc="l.name.default_code"/></th>
-												<th class="text-center"><span t-esc="l.name.name"/></th>
+												<th class="text-left"><span t-esc="l.name.default_code"/></th>
+												<th class="text-left"><span t-esc="l.name.name"/></th>
 
-												<th class="text-center"><span t-esc="o.float_format(l.cantidad_inicial)"/></th>
-												<th class="text-center"><span t-esc="o.float_format(l.costo_intradas)"/></th>
-												<th class="text-center"><span t-esc="o.float_format(l.total_bolivares_inicial)"/></th>
+												<th class="text-right"><span t-esc="o.float_format(l.cantidad_inicial)"/></th>
+												<th class="text-right"><span t-esc="o.float_format(l.costo_intradas)"/></th>
+												<th class="text-right"><span t-esc="o.float_format(l.total_bolivares_inicial)"/></th>
 
-												<th class="text-center"><span t-esc="o.float_format(l.cantidad_entradas)"/></th>
-												<th class="text-center"><span t-esc="o.float_format(l.costo_entradas)"/></th>
-												<th class="text-center"><span t-esc="o.float_format(l.total_bolivares_entradas)"/></th>
+												<th class="text-right"><span t-esc="o.float_format(l.cantidad_entradas)"/></th>
+												<th class="text-right"><span t-esc="o.float_format(l.costo_entradas)"/></th>
+												<th class="text-right"><span t-esc="o.float_format(l.total_bolivares_entradas)"/></th>
 
-												<th class="text-center"><span t-esc="o.float_format(l.cantidad_salidas)"/></th>
-												<th class="text-center"><span t-esc="o.float_format(l.costo_salidas)"/></th>
-												<th class="text-center"><span t-esc="o.float_format(l.total_bolivares_salida)"/></th>
+												<th class="text-right"><span t-esc="o.float_format(l.cantidad_salidas)"/></th>
+												<th class="text-right"><span t-esc="o.float_format(l.costo_salidas)"/></th>
+												<th class="text-right"><span t-esc="o.float_format(l.total_bolivares_salida)"/></th>
 
-												<th class="text-center"><span t-esc="o.float_format(l.total)"/></th>
-												<th class="text-center"><span t-esc="o.float_format(l.promedio)"/></th>
-												<th class="text-center"><span t-esc="o.float_format(l.total_bolivares)"/></th>
+												<th class="text-right"><span t-esc="o.float_format(l.total)"/></th>
+												<th class="text-right"><span t-esc="o.float_format(l.promedio)"/></th>
+												<th class="text-right"><span t-esc="o.float_format(l.total_bolivares)"/></th>
 
 												<t t-set="total_bolivares_inicial" t-value="l.total_bolivares_inicial  + total_bolivares_inicial"/>
 												<t t-set="total_bolivares_entradas" t-value="l.total_bolivares_entradas + total_bolivares_entradas "/>

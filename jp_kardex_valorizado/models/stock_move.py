@@ -85,52 +85,7 @@ class ProductProduct(models.Model):
         inicial = True
         movimientos =  self.movimientos()
 
-        # for i in range(len(movimientos)) :
-        #     tipo = self.env['type.operation.kardex'].search([('name','=',movimientos[i][3])])
-        #     if len(tipo) == 0 :
-        #         tipo = self.env['type.operation.kardex'].search([('id','=',movimientos[i][16])])
-    
-        #     if len(tipo) > 0 :
-        #         saldo = saldo + movimientos[i][10] - movimientos[i][11]
-             
-        #         ing = round((movimientos[i][12] if movimientos[i][12] and movimientos[i][12]>0 else last_price) * movimientos[i][10],2) if movimientos[i][10] else 0
-        #         sal = round(last_price * movimientos[i][11],2) if movimientos[i][11] else 0
-        #         if movimientos[i][13] == 1 or movimientos[i][13] == None: 
-        #             saldo_total = saldo_total + ing - sal
-        #             if movimientos[i][14] and movimientos[i][15] == False or movimientos[i][14] and movimientos[i][15] == True :
-        #                 last_price = last_price
-        #             else:
-        #                 last_price = saldo_total / saldo if saldo_total and saldo > 0 else 0
-        #         else:
-        #             saldo_total = saldo_total + ing - sal
-        #         if last_price == 0:
-        #             last_price = movimientos[i][12]
-        #         print(i)
-        #         if movimientos[i][10] > 0:
-        #             self.env['product.product.kardex.line'].create({
-        #             'name': self.id,
-        #             'fecha': movimientos[i][8],
-        #             'type_operation_sunat_id' : tipo[0].id,
-        #             'cantidad_entradas':movimientos[i][10],
-        #             'costo_entradas':movimientos[i][12],
-        #             'total_bolivares_entradas': movimientos[i][10] * movimientos[i][12] if  movimientos[i][12] else 0,
-        #             'total':saldo,
-        #             'promedio':last_price,
-        #             'total_bolivares':saldo_total
-        #             })
-        #         else :
-        #             self.env['product.product.kardex.line'].create({
-        #             'name': self.id,
-        #             'fecha': movimientos[i][8],
-        #             'type_operation_sunat_id' : tipo[0].id,
-        #             'cantidad_salidas':movimientos[i][11],
-        #             'costo_salidas':last_price,
-        #             'total_bolivares_salida': movimientos[i][11] * last_price,
-        #             'total':saldo,
-        #             'promedio':last_price,
-        #             'total_bolivares':saldo_total
-        #             })
-
+       
 
         for line in movimientos :
             tipo = self.env['type.operation.kardex'].search([('name','=',line[3])])
@@ -138,8 +93,9 @@ class ProductProduct(models.Model):
                 tipo = self.env['type.operation.kardex'].search([('id','=',line[16])])
 
             if len(tipo) > 0 :
-                saldo = saldo + line[10] - line[11]
-             
+                saldo +=  line[10]  if line[10] > 0 else 0
+                saldo -=  line[11]  if line[11] > 0 else 0 
+
                 ing = round((line[12] if line[12] and line[12]>0 else last_price) * line[10],2) if line[10] else 0
                 sal = round(last_price * line[11],2) if line[11] else 0
                 if line[13] == 1 or line[13] == None: 
@@ -162,7 +118,7 @@ class ProductProduct(models.Model):
                     'costo_entradas':line[12],
                     'total_bolivares_entradas': line[10] * line[12] if  line[12] else 0,
                     'total':saldo,
-                    'promedio':saldo_total / saldo,
+                    'promedio':saldo_total / saldo if  saldo > 0 else 0,
                     'total_bolivares':saldo_total
                     })
                 else :
@@ -174,7 +130,7 @@ class ProductProduct(models.Model):
                     'costo_salidas':last_price,
                     'total_bolivares_salida': line[11] * last_price,
                     'total':saldo,
-                    'promedio':  saldo_total / saldo,
+                    'promedio':  saldo_total / saldo if  saldo > 0 else 0,
                     'total_bolivares':saldo_total
                     })
 
