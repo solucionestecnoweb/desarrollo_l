@@ -174,7 +174,7 @@ class ProductProduct(models.Model):
                     'costo_salidas':last_price,
                     'total_bolivares_salida': line[11] * last_price,
                     'total':saldo,
-                    'promedio':saldo / saldo_total,,
+                    'promedio':saldo / saldo_total,
                     'total_bolivares':saldo_total
                     })
 
