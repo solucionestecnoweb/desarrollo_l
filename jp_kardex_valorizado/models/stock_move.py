@@ -88,10 +88,11 @@ class ProductProduct(models.Model):
        
 
         for line in movimientos :
-            tipo = self.env['type.operation.kardex'].search([('name','=',line[3])])
-            if len(tipo) == 0 :
+            
+            if line[16] :
                 tipo = self.env['type.operation.kardex'].search([('id','=',line[16])])
-
+            else :
+                tipo = self.env['type.operation.kardex'].search([('name','=',line[3])])
             if len(tipo) > 0 :
                 saldo +=  line[10]  if line[10] > 0 else 0
                 saldo -=  line[11]  if line[11] > 0 else 0 
@@ -212,12 +213,12 @@ class ProductProduct(models.Model):
                 case 
             when sm.type_operation_sunat_id is  NULL then 
                 case 
-                    when spt.code = 'incoming' or coalesce(spt.code , '') = '' then sm.product_qty
+                    when spt.code = 'incoming' or coalesce(spt.code , '') = '' then 44 --sm.product_qty
                     else  0
                 end
             else 
                 case 
-                    when sm.type_operation_sunat_id = 10 then 0
+                    when sm.type_operation_sunat_id = 10 or  sm.type_operation_sunat_id = 14 then 0
                     else sm.product_qty
                 end
         end as "Entrada",
@@ -229,7 +230,7 @@ class ProductProduct(models.Model):
                 end
             else 
                 case 
-                    when sm.type_operation_sunat_id = 10 then sm.product_qty
+                    when sm.type_operation_sunat_id = 10 or  sm.type_operation_sunat_id = 14 then sm.product_qty
                     else 0
                 end
         end as "Salida",
@@ -262,11 +263,11 @@ class ProductProduct(models.Model):
         and (sml.location_id in """ +str(tuple(s_loca))+ """ or sml.location_dest_id in """ +str(tuple(s_loca))+ """)
         and svl.stock_landed_cost_id is NULL
         and sm.state = 'done'
-        and svl.unit_cost > 0
+        --and svl.unit_cost > 0
         order by "Fecha"
         """
         self.env.cr.execute(sql)
-        print(sql)
+        #print(sql)
         return self.env.cr.fetchall()
 
 class ProductKardexLine(models.TransientModel):
@@ -297,4 +298,11 @@ class ProductKardexLine(models.TransientModel):
     promedio     = fields.Float(string='Promedio')
     total_bolivares     = fields.Float(string='Total Bolivares')
     
-    
+class StockScrap(models.Model):
+    _inherit = 'stock.scrap'
+  
+    def action_validate(self):
+        t = super(StockScrap, self).action_validate() 
+        tipo = self.env['type.operation.kardex'].search([('id','=','14')])
+        self.move_id.type_operation_sunat_id = tipo[0].id
+        return t

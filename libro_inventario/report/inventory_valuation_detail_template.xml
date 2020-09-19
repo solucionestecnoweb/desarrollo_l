@@ -187,17 +187,17 @@
 										</tr>
 										<tr>
 											<th colspan="2" style="border-top: 1px solid black;" class="text-center"><b>TOTAL  LÍNEA:</b></th>
-											<th colspan="2" style="border-top: 1px solid black;" class="text-center"><b><span t-esc="o.float_format(linea_bolivares_inicial)"/></b></th>
-											<th style="border-top: 1px solid black;" class="text-center"><b><span t-esc="o.float_format(total_bolivares_inicial)"/></b></th>
+											<th colspan="2" style="border-top: 1px solid black;" class="text-right"><b><span t-esc="o.float_format(linea_bolivares_inicial)"/></b></th>
+											<th style="border-top: 1px solid black;" class="text-right"><b><span t-esc="o.float_format(total_bolivares_inicial)"/></b></th>
 
-											<th colspan="2" style="border-top: 1px solid black;" class="text-center"><b><span t-esc="o.float_format(linea_bolivares_entradas)"/></b></th>
-											<th style="border-top: 1px solid black;" class="text-center"><b><span t-esc="o.float_format(total_bolivares_entradas)"/></b></th>
+											<th colspan="2" style="border-top: 1px solid black;" class="text-right"><b><span t-esc="o.float_format(linea_bolivares_entradas)"/></b></th>
+											<th style="border-top: 1px solid black;" class="text-right"><b><span t-esc="o.float_format(total_bolivares_entradas)"/></b></th>
 
-											<th colspan="2" style="border-top: 1px solid black;" class="text-center"><b><span t-esc="o.float_format(linea_bolivares_salida)"/></b></th>
-											<th style="border-top: 1px solid black;" class="text-center"><b><span t-esc="o.float_format(total_bolivares_salida)"/></b></th>
+											<th colspan="2" style="border-top: 1px solid black;" class="text-right"><b><span t-esc="o.float_format(linea_bolivares_salida)"/></b></th>
+											<th style="border-top: 1px solid black;" class="text-right"><b><span t-esc="o.float_format(total_bolivares_salida)"/></b></th>
 
-											<th colspan="2" style="border-top: 1px solid black;" class="text-center"><b><span t-esc="o.float_format(total_general)"/></b></th>
-											<th style="border-top: 1px solid black;" class="text-center"><b><span t-esc="o.float_format(total_bolivares)"/></b></th>
+											<th colspan="2" style="border-top: 1px solid black;" class="text-right"><b><span t-esc="o.float_format(total_general)"/></b></th>
+											<th style="border-top: 1px solid black;" class="text-right"><b><span t-esc="o.float_format(total_bolivares)"/></b></th>
 										</tr>
 										<tr>
 											<th colspan="14" style="color: white;" class="text-center">
@@ -211,15 +211,15 @@
 								</tbody>
 								<tfoot>
 									<tr>
-										<th colspan="2" style="border-top: 1px solid black;" class="text-center"><b>TOTAL  GENERAL:</b></th>
-										<th colspan="2" style="border-top: 1px solid black;" class="text-center"><b><span t-esc="o.float_format(cat_general_inicial)"/></b></th>
-										<th style="border-top: 1px solid black;" class="text-center"><b><span t-esc="o.float_format(total_general_inicial)"/></b></th>
-										<th colspan="2" style="border-top: 1px solid black;" class="text-center"><b><span t-esc="o.float_format(cat_general_entradas)"/></b></th>
-										<th style="border-top: 1px solid black;" class="text-center"><b><span t-esc="o.float_format(total_general_entradas)"/></b></th>
-										<th colspan="2" style="border-top: 1px solid black;" class="text-center"><b><span t-esc="o.float_format(cat_general_salida)"/></b></th>
-										<th style="border-top: 1px solid black;" class="text-center"><b><span t-esc="o.float_format(total_general_salida)"/></b></th>
-										<th colspan="2" style="border-top: 1px solid black;" class="text-center"><b><span t-esc="o.float_format(cat_general)"/></b></th>
-										<th style="border-top: 1px solid black;" class="text-center"><b><span t-esc="o.float_format(total_general)"/></b></th> 
+										<th colspan="2" style="border-top: 1px solid black;" class="text-right"><b>TOTAL  GENERAL:</b></th>
+										<th colspan="2" style="border-top: 1px solid black;" class="text-right"><b><span t-esc="o.float_format(cat_general_inicial)"/></b></th>
+										<th style="border-top: 1px solid black;" class="text-right"><b><span t-esc="o.float_format(total_general_inicial)"/></b></th>
+										<th colspan="2" style="border-top: 1px solid black;" class="text-right"><b><span t-esc="o.float_format(cat_general_entradas)"/></b></th>
+										<th style="border-top: 1px solid black;" class="text-right"><b><span t-esc="o.float_format(total_general_entradas)"/></b></th>
+										<th colspan="2" style="border-top: 1px solid black;" class="text-right"><b><span t-esc="o.float_format(cat_general_salida)"/></b></th>
+										<th style="border-top: 1px solid black;" class="text-right"><b><span t-esc="o.float_format(total_general_salida)"/></b></th>
+										<th colspan="2" style="border-top: 1px solid black;" class="text-right"><b><span t-esc="o.float_format(cat_general)"/></b></th>
+										<th style="border-top: 1px solid black;" class="text-right"><b><span t-esc="o.float_format(total_general)"/></b></th> 
 									</tr>
 									<tr>
 										<th colspan="14" style="color: white;" class="text-center">
