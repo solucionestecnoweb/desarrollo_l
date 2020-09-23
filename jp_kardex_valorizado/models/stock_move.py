@@ -213,7 +213,7 @@ class ProductProduct(models.Model):
                 case 
             when sm.type_operation_sunat_id is  NULL then 
                 case 
-                    when spt.code = 'incoming' or coalesce(spt.code , '') = '' then 44 --sm.product_qty
+                    when spt.code = 'incoming' or coalesce(spt.code , '') = '' then sm.product_qty   
                     else  0
                 end
             else 
