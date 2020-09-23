@@ -118,6 +118,7 @@
 								<t t-set="validar"   t-value="True"/>
 								<tbody>
 								<t t-foreach="o.libro" t-as="k">
+									<t t-if="len(k.line_id) > 0">
 										<tr>
 											<th class="text-center"><b>LÍNEA:</b></th>
 											<th class="text-center"><b><span t-esc="k.name.name"/> </b></th>
@@ -206,6 +207,7 @@
 											--------------------------------------------------------------------------------------------------------------------------------------
 											</th>
 										</tr>
+									</t>
 									
 								</t>
 								</tbody>
