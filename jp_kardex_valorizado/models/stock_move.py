@@ -128,7 +128,7 @@ class ProductProduct(models.Model):
                     'fecha': line[8],
                     'type_operation_sunat_id' : tipo[0].id,
                     'cantidad_salidas':line[11],
-                    'costo_salidas':last_price,
+                    'costo_salidas': saldo_total / saldo if  saldo > 0 else 0,
                     'total_bolivares_salida': line[11] * last_price,
                     'total':saldo,
                     'promedio':  saldo_total / saldo if  saldo > 0 else 0,
