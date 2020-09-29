@@ -189,7 +189,7 @@
 										<tr>
 											<th colspan="2" style="border-top: 1px solid black;" class="text-center"><b>TOTAL  LÍNEA:</b></th>
 											<th  style="border-top: 1px solid black;" class="text-right"><b><span t-esc="o.float_format(linea_bolivares_inicial)"/></b></th>
-											<th colspan="2"style="border-top: 1px solid black;" class="text-right"><b><span t-esc="o.float_format(total_bolivares_inicial)"/></b></th>
+											<th colspan="2" style="border-top: 1px solid black;" class="text-right"><b><span t-esc="o.float_format(total_bolivares_inicial)"/></b></th>
 
 											<th  style="border-top: 1px solid black;" class="text-right"><b><span t-esc="o.float_format(linea_bolivares_entradas)"/></b></th>
 											<th colspan="2" style="border-top: 1px solid black;" class="text-right"><b><span t-esc="o.float_format(total_bolivares_entradas)"/></b></th>
