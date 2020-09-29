@@ -96,20 +96,21 @@ class ProductProduct(models.Model):
             if len(tipo) > 0 :
                 saldo +=  line[10]  if line[10] > 0 else 0
                 saldo -=  line[11]  if line[11] > 0 else 0 
+                
                 if last_price == 0:
                     last_price = line[12]
                
-                if line[10] == False:
-                    line[10] = 0 
 
-                if line[11] == False:
-                    line[11] = 0 
-                
-                if line[12] == False:
-                    line[12] = 0 
+                if  line[12] == None or line[10] == None :
+                    ing = round((line[12] if line[12] and line[12]>0 else last_price) * line[10],2) if line[10] else 0
+                else :
+                    ing = 0 
+                if line[11] == None :
+                    sal = round(last_price * line[11],2) if line[11] else 0
+                else :
+                    sal = 0 
 
-                ing = round((line[12] if line[12] and line[12]>0 else last_price) * line[10],2) if line[10] else 0
-                sal = round(last_price * line[11],2) if line[11] else 0
+                    
                 if line[13] == 1 or line[13] == None: 
                     saldo_total = saldo_total + ing - sal
                     if line[14] and line[15] == False or line[14] and line[15] == True :
