@@ -101,16 +101,13 @@ class ProductProduct(models.Model):
                     last_price = line[12]
                
 
-                if  line[12] == None or line[10] == None :
+                if  line[10] == None :
                     ing = round((line[12] if line[12] and line[12]>0 else last_price) * line[10],2) if line[10] else 0
                 else :
                     ing = 0 
-                if line[11] == None :
-                    sal = round(last_price * line[11],2) if line[11] else 0
-                else :
-                    sal = 0 
+                sal = round(last_price * line[11],2) if line[11] else 0
 
-                    
+
                 if line[13] == 1 or line[13] == None: 
                     saldo_total = saldo_total + ing - sal
                     if line[14] and line[15] == False or line[14] and line[15] == True :
