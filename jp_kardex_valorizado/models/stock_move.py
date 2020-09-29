@@ -98,7 +98,16 @@ class ProductProduct(models.Model):
                 saldo -=  line[11]  if line[11] > 0 else 0 
                 if last_price == 0:
                     last_price = line[12]
-                    
+               
+                if line[10] == False:
+                    line[10] = 0 
+
+                if line[11] == False:
+                    line[11] = 0 
+                
+                if line[12] == False:
+                    line[12] = 0 
+
                 ing = round((line[12] if line[12] and line[12]>0 else last_price) * line[10],2) if line[10] else 0
                 sal = round(last_price * line[11],2) if line[11] else 0
                 if line[13] == 1 or line[13] == None: 
