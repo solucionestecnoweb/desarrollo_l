@@ -96,57 +96,57 @@ class ProductProduct(models.Model):
                 tipo = self.env['type.operation.kardex'].search([('id','=',line[16])])
             else :
                 tipo = self.env['type.operation.kardex'].search([('name','=',line[3])])
-            if len(tipo) > 0 :
-                try:
-                    saldo +=  line[10]  if line[10] > 0 else 0
-                    saldo -=  line[11]  if line[11] > 0 else 0 
+            # if len(tipo) > 0 :
+            #     try:
+            #         saldo +=  line[10]  if line[10] > 0 else 0
+            #         saldo -=  line[11]  if line[11] > 0 else 0 
                     
                 
-                    ing = round((line[12] if line[12] and line[12]>0 else last_price) * line[10],2) if line[10] else 0
-                    sal = round(last_price * line[11],2) if line[11] else 0
+            #         ing = round((line[12] if line[12] and line[12]>0 else last_price) * line[10],2) if line[10] else 0
+            #         sal = round(last_price * line[11],2) if line[11] else 0
 
 
-                    if line[13] == 1 or line[13] == None: 
-                        saldo_total = saldo_total + ing - sal
-                        if line[14] and line[15] == False or line[14] and line[15] == True :
-                            last_price = last_price
-                        else:
-                            last_price = saldo_total / saldo if saldo_total and saldo > 0 else 0
-                    else:
-                        saldo_total = saldo_total + ing - sal
+            #         if line[13] == 1 or line[13] == None: 
+            #             saldo_total = saldo_total + ing - sal
+            #             if line[14] and line[15] == False or line[14] and line[15] == True :
+            #                 last_price = last_price
+            #             else:
+            #                 last_price = saldo_total / saldo if saldo_total and saldo > 0 else 0
+            #         else:
+            #             saldo_total = saldo_total + ing - sal
                     
-                    if last_price == 0 and line[10] > 0:
-                        last_price = line[12]
+            #         if last_price == 0 and line[10] > 0:
+            #             last_price = line[12]
 
-                    if line[10] > 0:
-                        self.env['product.product.kardex.line'].create({
-                        'name': self.id,
-                        'fecha': line[8],
-                        'type_operation_sunat_id' : tipo[0].id,
-                        'cantidad_entradas':line[10],
-                        'costo_entradas':line[12],
-                        'total_bolivares_entradas': line[10] * line[12] if  line[12] else 0,
-                        'total':saldo,
-                        'promedio':saldo_total / saldo if  saldo > 0 else 0,
-                        'total_bolivares':saldo_total
-                        })
-                    else :
+            #         if line[10] > 0:
+            #             self.env['product.product.kardex.line'].create({
+            #             'name': self.id,
+            #             'fecha': line[8],
+            #             'type_operation_sunat_id' : tipo[0].id,
+            #             'cantidad_entradas':line[10],
+            #             'costo_entradas':line[12],
+            #             'total_bolivares_entradas': line[10] * line[12] if  line[12] else 0,
+            #             'total':saldo,
+            #             'promedio':saldo_total / saldo if  saldo > 0 else 0,
+            #             'total_bolivares':saldo_total
+            #             })
+            #         else :
 
-                        salida =  saldo_total / saldo if  saldo > 0 else 0
+            #             salida =  saldo_total / saldo if  saldo > 0 else 0
 
-                        self.env['product.product.kardex.line'].create({
-                        'name': self.id,
-                        'fecha': line[8],
-                        'type_operation_sunat_id' : tipo[0].id,
-                        'cantidad_salidas':line[11],
-                        'costo_salidas': last_price , 
-                        'total_bolivares_salida': line[11] * last_price,
-                        'total':saldo,
-                        'promedio':  saldo_total / saldo if  saldo > 0 else 0,
-                        'total_bolivares':saldo_total
-                        })
-                except Exception as err:
-                    _logger.error("%s", line)
+            #             self.env['product.product.kardex.line'].create({
+            #             'name': self.id,
+            #             'fecha': line[8],
+            #             'type_operation_sunat_id' : tipo[0].id,
+            #             'cantidad_salidas':line[11],
+            #             'costo_salidas': last_price , 
+            #             'total_bolivares_salida': line[11] * last_price,
+            #             'total':saldo,
+            #             'promedio':  saldo_total / saldo if  saldo > 0 else 0,
+            #             'total_bolivares':saldo_total
+            #             })
+            #     except Exception as err:
+            #         _logger.error("%s", line)
 
 
     def movimientos(self):
@@ -253,7 +253,8 @@ class ProductProduct(models.Model):
         sm.inventory_id as "Ajuste",
         si.is_initial_sil,
         sm.type_operation_sunat_id as "type_operation_sunat_id",
-        sm.id "ID"
+        sm.id "ID",
+
         from stock_move sm
         left join stock_move_line sml ON sm.id = sml.move_id
         left join stock_location slo ON sml.location_id = slo.id
@@ -281,7 +282,7 @@ class ProductProduct(models.Model):
         order by "Fecha"
         """
         self.env.cr.execute(sql)
-        #print(sql)
+        print(sql)
         return self.env.cr.fetchall()
 
 class ProductKardexLine(models.TransientModel):
