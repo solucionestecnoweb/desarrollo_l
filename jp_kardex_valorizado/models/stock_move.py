@@ -11,7 +11,15 @@ class StockMove(models.Model):
 
     kardex_price_unit = fields.Float(string='Kardex Price Unit', default=0) # digits=(total, decimal)
     type_operation_sunat_id = fields.Many2one('type.operation.kardex','Tipo de Transacción')
-
+    valoracion = fields.One2many(comodel_name='stock.valuation.layer', inverse_name='stock_move_id', string='Valoracion')
+    
+    def set_kardex_price_unit(self):
+        total = 0 
+        for item in self.valoracion : 
+            total += item.value
+        self.kardex_price_unit = total / self.product_qty 
+        self.kardex_price_unit =  self.kardex_price_unit - self.price_unit 
+        
     def _create_in_svl(self, forced_quantity=None):
         res = super(StockMove, self)._create_in_svl()
         for valuation in res:
