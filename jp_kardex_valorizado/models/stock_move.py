@@ -95,14 +95,18 @@ class ProductProduct(models.Model):
         for line in movimientos :
             saldo +=  line.quantity
             saldo_total +=  line.value 
-            promedio = saldo_total / saldo 
-
+            promedio = saldo_total / saldo  if saldo > 0 else 0
+            #
+            if line.account_move_id.type_operation_sunat_id.id:
+                type_operation_sunat_id = line.account_move_id.type_operation_sunat_id
+            else : 
+                type_operation_sunat_id = line.picking_type_id.type_operation_sunat_id
 
             if line.quantity >= 0:
                 self.env['product.product.kardex.line'].create({
                 'name': self.id,
                 'fecha': line.date,
-               # 'type_operation_sunat_id' : tipo[0].id,
+                'type_operation_sunat_id' : type_operation_sunat_id.id,
                 'cantidad_entradas':line.quantity,
                 'costo_entradas':line.unit_cost,
                 'total_bolivares_entradas': line.value,
@@ -114,7 +118,7 @@ class ProductProduct(models.Model):
                 self.env['product.product.kardex.line'].create({
                 'name': self.id,
                 'fecha': line.date,
-               # 'type_operation_sunat_id' : tipo[0].id,
+                'type_operation_sunat_id' : type_operation_sunat_id.id,
                 'cantidad_salidas':line.quantity,
                 'costo_salidas': line.unit_cost, 
                 'total_bolivares_salida': line.value,
