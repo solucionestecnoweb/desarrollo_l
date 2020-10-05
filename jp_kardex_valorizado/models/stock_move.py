@@ -98,9 +98,9 @@ class ProductProduct(models.Model):
             promedio = saldo_total / saldo  if saldo > 0 else 0
             #
             if line.stock_move_id.type_operation_sunat_id.id:
-                type_operation_sunat_id = line.account_move_id.type_operation_sunat_id
+                type_operation_sunat_id = line.stock_move_id.type_operation_sunat_id
             else : 
-                type_operation_sunat_id = line.picking_type_id.type_operation_sunat_id
+                type_operation_sunat_id = line.stock_move_id.picking_type_id.type_operation_sunat_id
 
             if line.quantity >= 0:
                 self.env['product.product.kardex.line'].create({
