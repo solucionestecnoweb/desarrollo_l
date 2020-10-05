@@ -97,7 +97,7 @@ class ProductProduct(models.Model):
             saldo_total +=  line.value 
             promedio = saldo_total / saldo  if saldo > 0 else 0
             #
-            if line.account_move_id.type_operation_sunat_id.id:
+            if line.stock_move_id.type_operation_sunat_id.id:
                 type_operation_sunat_id = line.account_move_id.type_operation_sunat_id
             else : 
                 type_operation_sunat_id = line.picking_type_id.type_operation_sunat_id
