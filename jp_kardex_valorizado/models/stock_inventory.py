@@ -16,7 +16,8 @@ class StockInventoryLine(models.Model):
 class StockValuationLayer(models.Model):
     _inherit = 'stock.valuation.layer'
 
-    date = fields.Date(related='account_move_id.date')
+    date = fields.Datetime(related='stock_move_id.date')
+    
     
     # Adicional de digitos al campo (8)
     unit_cost = fields.Float('Unit Value', readonly=True, digits=(12,8))
