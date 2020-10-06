@@ -83,7 +83,7 @@ class ProductProduct(models.Model):
     def generate_kardex_gb(self):
         movimientos = self.env['stock.valuation.layer'].search([
             ('product_id','=',self.id),
-            ('account_move_id','!=', False),
+         #   ('account_move_id','!=', False),
         ])
         temp =  self.env['product.product.kardex.line'].search([])
         for t in temp:
