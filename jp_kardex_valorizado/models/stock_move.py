@@ -119,9 +119,9 @@ class ProductProduct(models.Model):
                 'name': self.id,
                 'fecha': line.date,
                 'type_operation_sunat_id' : type_operation_sunat_id.id,
-                'cantidad_salidas':line.quantity,
-                'costo_salidas': line.unit_cost, 
-                'total_bolivares_salida': line.value,
+                'cantidad_salidas':line.quantity * -1 ,
+                'costo_salidas': line.unit_cost , 
+                'total_bolivares_salida': line.value * -1,
                 'total':saldo,
                 'promedio':  promedio,
                 'total_bolivares':saldo_total
