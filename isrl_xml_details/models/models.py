@@ -40,8 +40,14 @@ class XmlLines(models.Model):
     report = fields.Binary('XML', filters='.xls', readonly=True)
     name =  fields.Char('File Name', size=32)
     company_id = fields.Many2one('res.company','Company',default=lambda self: self.env.user.company_id.id, readonly=True)
-    line_id  = fields.One2many(comodel_name='account.xml.detalle.line', inverse_name='detalle_id', string='Lineas')
+    line_id    = fields.One2many(comodel_name='account.xml.detalle.line', inverse_name='detalle_id', string='Lineas')
     
+    def views_detalle(self):
+        action = self.env.ref('isrl_xml_details.action_account_reten_details_line').read()[0]
+        action['domain'] = [('id', 'in', self.line_id.ids)]
+        action['context'] = dict(self._context, default_detalle_id=self.id)
+        return action
+
     def generar_xml(self):
         periodo = str(self.date_from.year) 
         rif= self.env.company.vat
