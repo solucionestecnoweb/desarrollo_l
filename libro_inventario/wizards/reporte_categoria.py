@@ -111,20 +111,16 @@ class ReporteCategoria(models.TransientModel):
                     
 
                     for sal in kardex_line :
-                        if sal.cantidad_salidas > 0:
-                            salida += 1 
-                            monto_salida += sal.total_bolivares_salida
-                            cantidad_salidas += sal.cantidad_salidas
-                        else :
-                            libro.cantidad_entradas += sal.cantidad_entradas
-                            libro.costo_entradas +=  sal.costo_entradas
-                            libro.total_bolivares_entradas += sal.total_bolivares_entradas
-                    if salida > 0:
-                        libro.cantidad_salidas = cantidad_salidas
-                        libro.total_bolivares_salida = monto_salida
-                        libro.costo_salidas = monto_salida / salida if salida > 0 else cantidad_salidas / monto_salida
-               
+                        libro.cantidad_entradas += sal.cantidad_entradas
+                        libro.total_bolivares_entradas += sal.total_bolivares_entradas
 
+                        libro.cantidad_salidas += sal.cantidad_salidas
+                        libro.total_bolivares_salida += sal.total_bolivares_salida
+                    
+                    libro.costo_entradas = sal.total_bolivares_entradas / sal.cantidad_entradas  if sal.total_bolivares_entradas  > 0 else 0
+                    libro.costo_salidas  = sal.total_bolivares_salida / sal.cantidad_salidas if sal.total_bolivares_salida > 0 else 0 
+
+                    
         self.libro =  self.env['libro.inventario.categoria'].search([])
         for item in self.libro:
             for l in item.line_id:
