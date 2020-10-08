@@ -117,8 +117,8 @@ class ReporteCategoria(models.TransientModel):
                         libro.cantidad_salidas += sal.cantidad_salidas
                         libro.total_bolivares_salida += sal.total_bolivares_salida
                     
-                    libro.costo_entradas = sal.total_bolivares_entradas / sal.cantidad_entradas  if sal.total_bolivares_entradas  > 0 else 0
-                    libro.costo_salidas  = sal.total_bolivares_salida / sal.cantidad_salidas if sal.total_bolivares_salida > 0 else 0 
+                    libro.costo_entradas = libro.total_bolivares_entradas / libro.cantidad_entradas  if libro.total_bolivares_entradas  > 0 else 0
+                    libro.costo_salidas  = libro.total_bolivares_salida / libro.cantidad_salidas if libro.total_bolivares_salida > 0 else 0 
 
                     
         self.libro =  self.env['libro.inventario.categoria'].search([])
